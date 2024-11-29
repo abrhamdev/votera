@@ -1,8 +1,12 @@
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-
-const socket = io("http://localhost:5000");
+ 
+const socket = io("http://localhost:5000",{
+  auth:{
+    token:sessionStorage.getItem("auth_token")
+  }
+});
 
 const ChatRoom = () => {
   const [Message,setMessage]=useState('');

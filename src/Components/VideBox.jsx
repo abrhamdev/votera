@@ -1,43 +1,54 @@
 import React, { useState } from "react";
-
+import {
+  XMarkIcon
+} from "@heroicons/react/24/outline";
 const VideoBox = () => {
-  const [videoSrc, setVideoSrc] = useState(null);
+  const [videoUrl, setVideoUrl] = useState(null);
 
-  // Handle video file input
-  const handleVideoUpload = (event) => {
+  const handleImportVideo = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const url = URL.createObjectURL(file); // Create a temporary URL for the video
-      setVideoSrc(url);
+      const url = URL.createObjectURL(file);
+      setVideoUrl(url);
     }
   };
 
   return (
-    <div className="video-container w-full">
-      <h2>Video Box</h2>
-
-      {/* File Input for Video Upload */}
-      <input
-        type="file"
-        accept="video/*"
-        onChange={handleVideoUpload}
-        style={{ marginBottom: "20px" }}
-      />
-
-      {/* Video Display */}
-      {videoSrc ? (
+      <>
+      {videoUrl ? (
+        <div className="p-10">
+          <XMarkIcon className="h-6 w-6 hover:text-blue-700" onClick={()=>setVideoUrl('')}/>
         <video
+          src={videoUrl}
           controls
-          width="600" // Adjust the size as needed
-          style={{ border: "2px solid #ccc", borderRadius: "8px" }}
+          className="w-full rounded-lg"
         >
-          <source src={videoSrc} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        </div>
       ) : (
-        <p>No video selected. Please upload a video.</p>
+        <div className="flex items-center justify-center flex-shrink-0 h-80 w-full border-2 border-dashed border-gray-300 rounded-lg shadow-lg bg-gray-600">
+        <div className="flex flex-col items-center justify-center text-center">
+          <p className="text-gray-400 mb-4 text-lg">
+            No video available. Please import one.
+          </p>
+          <label
+            htmlFor="videoInput"
+            className="cursor-pointer px-4 py-2  bg-blue-600 text-white rounded-md hover:bg-blue-500"
+          >
+            Import Video
+          </label>
+          <input
+            id="videoInput"
+            type="file"
+            accept="video/*"
+            onChange={handleImportVideo}
+            className="hidden"
+          />
+        </div>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

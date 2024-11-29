@@ -9,7 +9,7 @@ const SideBar = ({userName,userPoints,view,setView,handleLogout}) => {
  
 
   return (
-    <div className="w-1/5 bg-gray-800 flex flex-col items-center h-[100vh] py-8">
+    <div className="w-1/5 bg-gray-800 flex flex-col fixed items-center h-[100vh] py-8">
       <img
         src="https://via.placeholder.com/80"
         alt="User Avatar"

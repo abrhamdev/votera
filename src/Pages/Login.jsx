@@ -7,7 +7,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate(); // To navigate after successful login
-
+  const token = sessionStorage.getItem('auth_token');
+  console.log(token);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -31,9 +32,8 @@ const Login = () => {
 
       if (response.ok) {
         // Store JWT token in localStorage
-        const userID=data.userID;
-        sessionStorage.setItem(`auth_token_${userID}`, data.token);
-
+        sessionStorage.setItem('auth_token', data.token);
+        
         // Navigate to the dashboard or home page after successful login
         navigate("/"); // Redirect to dashboard or wherever needed
       } else {

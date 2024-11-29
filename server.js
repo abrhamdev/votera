@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 const server=http.createServer(app); //creating server
 const io=new Server(server, {
   cors: {
-    origin: "http://localhost:4000", // Allow connections from your frontend's port
+    origin: "http://localhost:5173", // Allow connections from your frontend's port
     methods: ["GET", "POST"] // Specify allowed methods
   }
 }); // attaching socketIo to the server
@@ -69,9 +69,7 @@ app.post('/login', async (req, res) => {
    }
 });
 
-app.post('/getuserid',(req,res)=>{
-   const query="SELECT id FROM users WHERE "
-})
+
 
 app.post('/api/signup', async (req,res)=>{
     const {name,email,password}=req.body;
@@ -101,9 +99,12 @@ app.post('/api/signup', async (req,res)=>{
 
 // Handle WebSocket connection globally
 io.on('connection', (socket) => {
-  console.log('a user connected with id ', socket.id);
+  const token=socket.handshake.auth.token;
+  
+  console.log('a user connected with id ', socket.id," With ",token);
   socket.on('message',(msg)=>{
     console.log(msg);
+    socket.emit("message",msg);
   });
 });
 

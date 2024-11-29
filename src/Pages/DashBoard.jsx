@@ -5,18 +5,17 @@ import Middle from "../Components/Middle";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 const DashBoard = () => {
   const navigate = useNavigate();
   useEffect(() => {
-   
-   // Retrieve the corresponding token
-   const token =sessionStorage.getItem(`auth_token_`);
-    if (token) {
+    // Retrieve the corresponding token
+    const token = sessionStorage.getItem("auth_token");
+    console.log(token);
+    if (!token) {
       navigate("/login");
     }
   });
-  
+
   const [view, setView] = useState("chat");
   const [gameMode, setGameMode] = useState("");
   const userName = "abrham";
@@ -36,7 +35,7 @@ const DashBoard = () => {
           setView={setView}
           handleLogout={handleLogout}
         />
-        <Middle view={view} />
+        <Middle view={view} gameMode={gameMode}/>
         <RightSide view={view} gameMode={gameMode} />
       </div>
     </>
