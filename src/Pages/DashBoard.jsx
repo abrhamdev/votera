@@ -7,14 +7,16 @@ import axios from "axios";
 
 const DashBoard = () => {
   const navigate = useNavigate();
+  
+  const token = sessionStorage.getItem("authtoken");
   useEffect(() => {
     // Retrieve the corresponding token
-    const token = sessionStorage.getItem("auth_token");
+    
     console.log(token);
     if (!token) {
       navigate("/login");
     }
-  });
+  }, [navigate, token]);
 
   const [view, setView] = useState("chat");
   const [gameMode, setGameMode] = useState("");
@@ -22,7 +24,7 @@ const DashBoard = () => {
   const userPoints = 23;
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("authtoken");
     navigate("/login");
   };
   return (
