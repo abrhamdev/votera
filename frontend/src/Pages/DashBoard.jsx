@@ -4,23 +4,36 @@ import SideBar from "../Components/SideBar";
 import Middle from "../Components/Middle";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../../apiUrl";
 
 const DashBoard = () => {
   const navigate = useNavigate();
-  
+  const [user,setUser] = useState(null);
   const token = sessionStorage.getItem("authtoken");
   useEffect(() => {
     // Retrieve the corresponding token
-    
-    console.log(token);
+    const fetchuser = async () => {
+      try{
+        const response = await axios.get(`${API_URL}/user/profile`,{
+          headers: {
+            'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+        });
+        setUser(response.data.user);
+      }catch(error){
+        console.log(error);
+      }
+    }
     if (!token) {
       navigate("/login");
     }
+    fetchuser();
   }, [navigate, token]);
 
   const [view, setView] = useState("chat");
   const [gameMode, setGameMode] = useState("");
-  const userName = "abrham";
+  const userName = user?.username;
   const userPoints = 23;
 
   const handleLogout = () => {

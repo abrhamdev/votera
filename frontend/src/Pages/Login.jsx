@@ -1,5 +1,7 @@
-import React, { useState,useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../apiUrl";
 
 
 const Login = () => {
@@ -19,29 +21,14 @@ const Login = () => {
     // Make an API request to authenticate the user
     
     try {
-      const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await axios.post(`${API_URL}/user/login`, {email,password});
 
-      const data = await response.json();
-
-      if (response.ok) {
-        // Store JWT token in localStorage
-        sessionStorage.setItem("authtoken", data.token);
-        
-        // Navigate to the dashboard or home page after successful login
-        navigate("/"); // Redirect to dashboard or wherever needed
-      } else {
-        // Handle invalid credentials or other errors
-        setError(data.message || "Login failed. Please try again.");
-      }
+      sessionStorage.setItem("authtoken", response.data.token);   
+      navigate("/"); 
+      setError("");
     } catch (err) {
       // Handle network errors
-      setError("An error occurred. Please try again.");
+      setError(err.response?.data?.message || "Login failed. Please try again.");
     }
   };
 

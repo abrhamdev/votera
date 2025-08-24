@@ -1,8 +1,9 @@
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
+import { API_URL } from "../../apiUrl";
  
-const socket = io("http://localhost:5000",{
+const socket = io(API_URL,{
   auth:{
     token:sessionStorage.getItem("authtoken")
   }
